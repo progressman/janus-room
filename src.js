@@ -559,6 +559,7 @@ function newRemoteFeed(id, display, audio, video) {
         var listen = {
           "request": "join",
           "room": config.room,
+          "pin": config.pin,
           "ptype": "subscriber",
           "feed": id,
           "private_id": config.mypvtid
@@ -737,6 +738,7 @@ class Room {
     config.server = options.server || null;
     config.opaqueId = "videoroomtest-" + Janus.randomString(12);
     config.room = options.room || null;
+    config.pin = options.pin || null;
     config.publishOwnFeed = options.publishOwnFeed || false;
     config.extensionId = options.extensionId || null;
     config.token = options.token || null;
@@ -811,9 +813,11 @@ class Room {
         }
         config.username = options.username || config.username;
         config.room = options.room || config.room;
+        config.pin = options.pin || null;
         var register = {
           "request": "join",
           "room": config.room,
+          "pin": config.pin,
           "ptype": "publisher",
           "display": config.username
         };
