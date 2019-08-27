@@ -33,7 +33,7 @@ function publishOwnFeed(opts, cb) {
         videoRecv: false,
         audioSend: opts.audioSend,
         replaceAudio: opts.replaceAudio,
-        videoSend: Janus.webRTCAdapter.browserDetails.browser === 'safari' ? false : opts.videoSend,
+        videoSend: opts.videoSend,
         replaceVideo: opts.replaceVideo,
         data: true,
       }, // Publishers are sendonly
@@ -44,7 +44,8 @@ function publishOwnFeed(opts, cb) {
         var publish = {
           "request": "configure",
           "audio": opts.audioSend,
-          "video": Janus.webRTCAdapter.browserDetails.browser === 'safari' ? false : true,
+          // "video": Janus.webRTCAdapter.browserDetails.browser === 'safari' ? false : true,
+          "video": true,
           "data": true,
         };
         if (config.token) publish.token = config.token;
@@ -570,11 +571,10 @@ function newRemoteFeed(id, display, audio, video) {
         // 'offer_data' properties to false (they're true by default), e.g.:
         // 		listen["offer_video"] = false;
         // For example, if the publisher is VP8 and this.is Safari, let's avoid video
-        if (video !== "h264" && Janus.webRTCAdapter.browserDetails.browser === "safari") {
+        if (video !== "h264") {
           if (video) {
             video = video.toUpperCase()
           }
-          Janus.debug("Publisher is using " + video + ", but Safari doesn't support it: disabling video");
           listen["offer_video"] = false;
         }
         listen["offer_data"] = true;
@@ -972,9 +972,6 @@ class Room {
 
   shareScreen() {
     return new Promise((resolve, reject) => {
-      if (Janus.webRTCAdapter.browserDetails.browser === 'safari') {
-        reject(new Error('No video support for Safari browser.'));
-      }
       if (!config.publishOwnFeed) {
         return reject();
       }
