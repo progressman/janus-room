@@ -571,12 +571,12 @@ function newRemoteFeed(id, display, audio, video) {
         // 'offer_data' properties to false (they're true by default), e.g.:
         // 		listen["offer_video"] = false;
         // For example, if the publisher is VP8 and this.is Safari, let's avoid video
-        if (video !== "h264") {
-          if (video) {
-            video = video.toUpperCase()
-          }
-          listen["offer_video"] = false;
-        }
+        // if (video !== "h264") {
+        //   if (video) {
+        //     video = video.toUpperCase()
+        //   }
+        //   listen["offer_video"] = false;
+        // }
         listen["offer_data"] = true;
         remoteFeed.videoCodec = video;
         remoteFeed.send({
